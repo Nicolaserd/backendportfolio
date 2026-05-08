@@ -12,19 +12,27 @@ import { ComentarioOrmEntity } from './modules/comentarios/infrastructure/persis
     }),
     TypeOrmModule.forRootAsync({
       inject: [ConfigService],
-      useFactory: (configService: ConfigService) => ({
-        type: 'postgres',
-        host: configService.getOrThrow<string>('DB_HOST'),
-        port: Number(configService.get<number>('DB_PORT', 5432)),
-        username: configService.getOrThrow<string>('DB_USERNAME'),
-        password: configService.getOrThrow<string>('DB_PASSWORD'),
-        database: configService.getOrThrow<string>('DB_NAME'),
-        ssl: {
-          rejectUnauthorized: false,
-        },
-        entities: [PersonaOrmEntity, ComentarioOrmEntity],
-        synchronize: false,
-      }),
+      useFactory: (configService: ConfigService) => {
+        const databaseUrl = configService.get<string>('DATABASE_URL');
+
+        return {
+          type: 'postgres',
+          ...(databaseUrl
+            ? { url: databaseUrl }
+            : {
+                host: configService.getOrThrow<string>('DB_HOST'),
+                port: Number(configService.get<number>('DB_PORT', 5432)),
+                username: configService.getOrThrow<string>('DB_USERNAME'),
+                password: configService.getOrThrow<string>('DB_PASSWORD'),
+                database: configService.getOrThrow<string>('DB_NAME'),
+              }),
+          ssl: {
+            rejectUnauthorized: false,
+          },
+          entities: [PersonaOrmEntity, ComentarioOrmEntity],
+          synchronize: false,
+        };
+      },
     }),
     ComentariosModule,
   ],
