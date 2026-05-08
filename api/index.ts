@@ -17,7 +17,10 @@ async function createHandler(): Promise<
   configureApp(app);
   await app.init();
 
-  return serverless(server) as (
+  return serverless(server, {
+    provider: 'aws',
+    callbackWaitsForEmptyEventLoop: false,
+  }) as (
     request: Request,
     response: Response,
   ) => Promise<unknown>;
