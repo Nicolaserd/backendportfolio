@@ -1,0 +1,1 @@
+{"version":3,"file":"persona.entity.js","sourceRoot":"","sources":["../../../../src/modules/personas/domain/persona.entity.ts"],"names":[],"mappings":";;;AAAA,oEAAgE;AAEhE,MAAa,OAAQ,SAAQ,wBAAU;IACrC,YACE,EAAU,EACV,SAAe,EACC,MAAc,EACd,MAAqB;QAErC,KAAK,CAAC,EAAE,EAAE,SAAS,CAAC,CAAC;QAHL,WAAM,GAAN,MAAM,CAAQ;QACd,WAAM,GAAN,MAAM,CAAe;IAGvC,CAAC;CACF;AATD,0BASC"}
