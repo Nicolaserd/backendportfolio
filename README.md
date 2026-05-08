@@ -17,6 +17,58 @@ Servidor por defecto:
 http://localhost:3000
 ```
 
+## Deploy en Vercel
+
+Este repositorio ya incluye configuracion para Vercel:
+
+- `vercel.json` redirige todas las rutas a `api/index.ts`
+- `api/index.ts` ejecuta NestJS como funcion serverless
+
+### Variables de entorno en Vercel
+
+Configura estas variables en tu proyecto de Vercel (`Settings > Environment Variables`):
+
+- `DB_HOST`
+- `DB_PORT`
+- `DB_USERNAME`
+- `DB_PASSWORD`
+- `DB_NAME`
+
+Opcional:
+
+- `PORT` (Vercel la maneja automaticamente, no es obligatorio)
+
+### Opcion A: Deploy desde GitHub + Dashboard Vercel
+
+1. Sube este repo a GitHub.
+2. En Vercel, crea un proyecto nuevo e importa el repositorio.
+3. En `Environment Variables`, agrega las variables de base de datos.
+4. Ejecuta el deploy.
+
+### Opcion B: Deploy por CLI
+
+```bash
+npm i -g vercel
+vercel login
+vercel
+```
+
+Para produccion:
+
+```bash
+vercel --prod
+```
+
+### Verificar deploy
+
+Con la URL de produccion de Vercel:
+
+```bash
+curl "https://TU_DOMINIO.vercel.app/comentarios/total"
+```
+
+Si responde JSON, el deploy quedo correcto.
+
 ## Endpoints HTTP
 
 ### `POST /comentarios`
@@ -209,7 +261,7 @@ curl -X POST http://localhost:3000/comentarios/corazones \
 
 El esquema SQL base esta en:
 
-- [supabase-schema.sql](c:/Users/Nicolas/Desktop/Proyect/BackendPortfolio/supabase-schema.sql:1)
+- [supabase-schema.sql](./supabase-schema.sql)
 
 Incluye:
 
