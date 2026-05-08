@@ -10,6 +10,10 @@
 
 Debes cargar estas variables en Vercel:
 
+- `DATABASE_URL`
+
+O, si no usas una URL completa:
+
 - `DB_HOST`
 - `DB_PORT`
 - `DB_USERNAME`
@@ -22,6 +26,7 @@ Referencia local: `.env.example`.
 
 - `vercel.json`: enruta todo a `api/index.ts`
 - `api/index.ts`: adapta NestJS para runtime serverless de Vercel
+- `express`: esta declarado como dependencia directa porque el handler serverless lo importa en runtime
 
 ## 4. Deploy desde dashboard de Vercel
 

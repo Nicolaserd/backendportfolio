@@ -10,6 +10,7 @@ exports.AppModule = void 0;
 const common_1 = require("@nestjs/common");
 const config_1 = require("@nestjs/config");
 const typeorm_1 = require("@nestjs/typeorm");
+const app_controller_1 = require("./app.controller");
 const comentarios_module_1 = require("./modules/comentarios/comentarios.module");
 const persona_orm_entity_1 = require("./modules/personas/infrastructure/persistence/persona.orm-entity");
 const comentario_orm_entity_1 = require("./modules/comentarios/infrastructure/persistence/comentario.orm-entity");
@@ -24,22 +25,30 @@ exports.AppModule = AppModule = __decorate([
             }),
             typeorm_1.TypeOrmModule.forRootAsync({
                 inject: [config_1.ConfigService],
-                useFactory: (configService) => ({
-                    type: 'postgres',
-                    host: configService.getOrThrow('DB_HOST'),
-                    port: Number(configService.get('DB_PORT', 5432)),
-                    username: configService.getOrThrow('DB_USERNAME'),
-                    password: configService.getOrThrow('DB_PASSWORD'),
-                    database: configService.getOrThrow('DB_NAME'),
-                    ssl: {
-                        rejectUnauthorized: false,
-                    },
-                    entities: [persona_orm_entity_1.PersonaOrmEntity, comentario_orm_entity_1.ComentarioOrmEntity],
-                    synchronize: false,
-                }),
+                useFactory: (configService) => {
+                    const databaseUrl = configService.get('DATABASE_URL');
+                    return {
+                        type: 'postgres',
+                        ...(databaseUrl
+                            ? { url: databaseUrl }
+                            : {
+                                host: configService.getOrThrow('DB_HOST'),
+                                port: Number(configService.get('DB_PORT', 5432)),
+                                username: configService.getOrThrow('DB_USERNAME'),
+                                password: configService.getOrThrow('DB_PASSWORD'),
+                                database: configService.getOrThrow('DB_NAME'),
+                            }),
+                        ssl: {
+                            rejectUnauthorized: false,
+                        },
+                        entities: [persona_orm_entity_1.PersonaOrmEntity, comentario_orm_entity_1.ComentarioOrmEntity],
+                        synchronize: false,
+                    };
+                },
             }),
             comentarios_module_1.ComentariosModule,
         ],
+        controllers: [app_controller_1.AppController],
     })
 ], AppModule);
 //# sourceMappingURL=app.module.js.map
